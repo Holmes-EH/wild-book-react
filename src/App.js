@@ -2,6 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import './App.css'
 import Wilder from './components/Wilder'
+import AddWilder from './components/AddWilder'
 
 const App = () => {
 	const [wilders, setWilders] = useState([])
@@ -38,6 +39,7 @@ const App = () => {
 				</div>
 			</header>
 			<main className='container'>
+				<AddWilder />
 				<h2>Wilders</h2>
 				<section className='card-row'>
 					{wilders.map((wilder, index) => {
