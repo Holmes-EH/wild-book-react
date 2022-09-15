@@ -44,7 +44,13 @@ const App = () => {
 				<section className='card-row'>
 					{wilders.map((wilder, index) => {
 						return (
-							<Wilder key={`wilder-${index}`} wilder={wilder} />
+							<Wilder
+								key={`wilder-${index}`}
+								name={wilder.name}
+								city={wilder.city}
+								description={wilder.description}
+								skills={wilder.skills}
+							/>
 						)
 					})}
 				</section>
