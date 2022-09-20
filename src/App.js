@@ -6,17 +6,24 @@ import AddWilder from './components/AddWilder'
 
 const App = () => {
 	const [wilders, setWilders] = useState([])
+	const [addNewWilder, setAddNewWilder] = useState(false)
+	const [wilderToEdit, setWilderToEdit] = useState({})
 
 	const refactorData = (data) => {
 		return data.map((wilder) => {
-			const cleanSkills = wilder.grades.map((grade) => {
-				return { title: grade.skill.name, votes: grade.grade }
+			const refactoredSkills = wilder.grades.map((grade) => {
+				return {
+					id: grade.skill.id,
+					title: grade.skill.name,
+					votes: grade.grade,
+				}
 			})
 			return {
+				id: wilder.id,
 				name: wilder.name,
 				city: wilder.city,
 				description: wilder.description,
-				skills: cleanSkills,
+				skills: refactoredSkills,
 			}
 		})
 	}
@@ -39,17 +46,38 @@ const App = () => {
 				</div>
 			</header>
 			<main className='container'>
-				<AddWilder />
+				<button
+					onClick={() => {
+						setWilderToEdit({})
+						setAddNewWilder(!addNewWilder)
+					}}
+				>
+					{addNewWilder ? 'Hide form' : 'Add new Wilder'}
+				</button>
+				{addNewWilder && (
+					<AddWilder
+						isEditing={Object.hasOwn(wilderToEdit, 'id')}
+						setWilderToEdit={setWilderToEdit}
+						editId={wilderToEdit.id}
+						editName={wilderToEdit.name}
+						editCity={wilderToEdit.city}
+						editDescription={wilderToEdit.description}
+						editSkills={wilderToEdit.skills}
+					/>
+				)}
 				<h2>Wilders</h2>
 				<section className='card-row'>
 					{wilders.map((wilder, index) => {
 						return (
 							<Wilder
 								key={`wilder-${index}`}
+								id={wilder.id}
 								name={wilder.name}
 								city={wilder.city}
 								description={wilder.description}
 								skills={wilder.skills}
+								setAddNewWilder={setAddNewWilder}
+								setWilderToEdit={setWilderToEdit}
 							/>
 						)
 					})}

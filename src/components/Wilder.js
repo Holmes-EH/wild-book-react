@@ -1,8 +1,34 @@
 import blank_profile from '../assets/blank_profile.png'
 import Skill from './Skill'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 
-const Wilder = ({ name, city, description, skills }) => {
+const Wilder = ({
+	id,
+	name,
+	city,
+	description,
+	skills,
+	setAddNewWilder,
+	setWilderToEdit,
+}) => {
+	const handleDelete = async () => {
+		await axios.delete('http://localhost:5000/api/wilders', {
+			data: { id: id },
+		})
+	}
+	const handleEdit = () => {
+		setWilderToEdit({
+			id,
+			name,
+			city,
+			description,
+			skills,
+		})
+
+		setAddNewWilder(true)
+	}
+
 	return (
 		<article className='card'>
 			<img src={blank_profile} alt='Jane Doe Profile' />
@@ -21,6 +47,8 @@ const Wilder = ({ name, city, description, skills }) => {
 					)
 				})}
 			</ul>
+			<button onClick={handleEdit}>Edit</button>
+			<button onClick={handleDelete}>Delete</button>
 		</article>
 	)
 }
